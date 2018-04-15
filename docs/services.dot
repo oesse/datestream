@@ -1,0 +1,42 @@
+// generate with:
+// dot -Tpng <services.dot> -o <services.png>
+digraph architecture {
+  rankdir=LR;
+
+  // API Gateways - #FFCCBC (light orange)
+  node[fillcolor="#FFCCBC" style="filled" fontcolor="black"];
+  my_app_api[label="Main API"];
+
+  // Storage - #303F9F (dark blue)
+  node[fillcolor="#303F9F" style="filled" fontcolor="white"];
+  session_mongo_db[label="MongoDB"];
+  video_mongo_db[label="MongoDB"];
+  history_mongo_db[label="MongoDB"];
+  cache[label="Redis Broker"];
+  file_server[label="File System"];
+
+  // Core microservice - #EFEFEF (light gray)
+  node[fillcolor="#EFEFEF" style="filled" fontcolor="black"];
+  session_ms[label="Session MS"];
+
+  // Microservices - #C8E6C9 (light green)
+  node[fillcolor="#C8E6C9" style="filled" fontcolor="black"];
+  chat_ms[label="Chat MS"]; 
+  video_discovery_ms[label="Video Discovery MS"];
+  video_file_ms[label="Video File MS"];
+  recommender_ms[label="Recommender MS"];
+  history_ms[label="History MS"];
+
+  subgraph api_gateways {
+      my_app_api -> {session_ms, video_discovery_ms, video_file_ms, chat_ms, recommender_ms};
+  }
+
+  subgraph microservices {
+      session_ms -> {session_mongo_db, history_ms};
+      video_discovery_ms -> {video_mongo_db,history_ms};
+      chat_ms -> {session_mongo_db, cache};
+      video_file_ms -> {file_server};
+      recommender_ms -> {history_ms};
+      history_ms -> {history_mongo_db};
+  }
+}
