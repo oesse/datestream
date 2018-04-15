@@ -5,7 +5,8 @@
     "node": true
   },
   "rules": {
-    "semi": ["error", "never"]
+    "semi": ["error", "never"],
+    "semi-style": ["error", "first"]
   },
   "overrides": [
     {
