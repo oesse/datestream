@@ -1,4 +1,6 @@
+import logger from './logger'
+
 export function handleError(err) {
-  console.error(err)
+  logger.error(err)
   process.exit(-1)
 }
