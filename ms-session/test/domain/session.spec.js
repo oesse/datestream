@@ -7,7 +7,7 @@ describe('Session class', () => {
   it('can be constructed from an initial user', () => {
     const s = new Session('userId')
     expect(s.users()).to.eql(['userId'])
-    expect(s.id()).to.be.a('string')
+    expect(s.id()).to.exist
   })
 
   it('another user can join the session', () => {

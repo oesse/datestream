@@ -1,4 +1,4 @@
-import uuid from 'uuid'
+import generateId from '../generate-id'
 
 export default class Session {
   static fromDb(dbEntry) {
@@ -16,7 +16,7 @@ export default class Session {
   constructor(initialUserId) {
     if (!initialUserId) { return }
     this._users = [initialUserId]
-    this._id = uuid()
+    this._id = generateId()
     this._isPlaying = false
   }
 
