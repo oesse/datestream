@@ -1,0 +1,22 @@
+version: "3"
+services:
+
+  session:
+    build: ./ms-session
+    environment:
+      - MONGO_URL='mongodb://sessiondb:27017/sessions'
+    ports:
+      - "${SESSION_MS_PORT}:8080"
+    volumes:
+      - yarn-cache:/root/yarn-cache
+
+  sessiondb:
+    image: mongo:3
+    ports:
+      - "27017:27017"
+    volumes:
+      - session-data:/data/db
+
+volumes:
+  session-data:
+  yarn-cache:
