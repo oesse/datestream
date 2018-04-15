@@ -1,4 +1,7 @@
 import express from 'express'
+import Router from 'express-promise-router'
+import { INTERNAL_SERVER_ERROR } from 'http-status-codes'
+import { handleRequestError } from './error-handler'
 
 import {
   newSessionEndpoint,
@@ -10,12 +13,18 @@ import {
 
 export default () => {
   const service = express()
+  const router = Router()
 
-  service.post('/new-session', newSessionEndpoint)
-  service.post('/join-session', joinSessionEndpoint)
-  service.post('/request-play', requestPlayEndpoint)
-  service.post('/request-pause', requestPauseEndpoint)
-  service.post('/request-reset', requestResetEndpoint)
+  router.post('/new-session', newSessionEndpoint)
+  router.post('/join-session', joinSessionEndpoint)
+  router.post('/request-play', requestPlayEndpoint)
+  router.post('/request-pause', requestPauseEndpoint)
+  router.post('/request-reset', requestResetEndpoint)
 
+  service.use(router)
+  service.use((err, req, res, next) => {
+    res.sendStatus(INTERNAL_SERVER_ERROR)
+    handleRequestError(req, err)
+  })
   return service
 }

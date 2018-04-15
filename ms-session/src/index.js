@@ -1,5 +1,5 @@
 import 'regenerator-runtime/runtime'
-import { promisify } from 'bluebird'
+import { fromCallback } from 'bluebird'
 import { handleError } from './error-handler'
 import { initializeMongoose } from './mongo'
 import service from './service'
@@ -18,6 +18,6 @@ process.on('uncaughtException', (error) => {
 ;(async () => {
   await initializeMongoose()
   const app = service()
-  await promisify(app.listen)(port)
+  await fromCallback(cb => app.listen(port, undefined, undefined, cb))
   logger.info('started session service')
 })()
