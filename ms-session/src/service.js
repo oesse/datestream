@@ -1,14 +1,21 @@
 import express from 'express'
-import { OK } from 'http-status-codes'
+
+import {
+  newSessionEndpoint,
+  joinSessionEndpoint,
+  requestPlayEndpoint,
+  requestPauseEndpoint,
+  requestResetEndpoint,
+} from './rest-endpoints'
 
 export default () => {
   const service = express()
 
-  service.post('/new-session', (req, res) => res.sendStatus(OK))
-  service.post('/join-session', (req, res) => res.sendStatus(OK))
-  service.post('/request-play', (req, res) => res.sendStatus(OK))
-  service.post('/request-pause', (req, res) => res.sendStatus(OK))
-  service.post('/request-reset', (req, res) => res.sendStatus(OK))
+  service.post('/new-session', newSessionEndpoint)
+  service.post('/join-session', joinSessionEndpoint)
+  service.post('/request-play', requestPlayEndpoint)
+  service.post('/request-pause', requestPauseEndpoint)
+  service.post('/request-reset', requestResetEndpoint)
 
   return service
 }
