@@ -7,7 +7,7 @@ export function handleError(err) {
 
 export function handleRequestError(req, err) {
   logger.error({
-    method:req.method,
+    method: req.method,
     path: req.path,
     err,
   })
