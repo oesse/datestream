@@ -1,3 +1,4 @@
+import bodyParser from 'body-parser'
 import express from 'express'
 import Router from 'express-promise-router'
 import { INTERNAL_SERVER_ERROR } from 'http-status-codes'
@@ -13,6 +14,8 @@ import {
 
 export default () => {
   const service = express()
+  service.use(bodyParser.json())
+
   const router = Router()
 
   router.post('/new-session', newSessionEndpoint)
