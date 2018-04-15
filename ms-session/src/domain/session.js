@@ -1,7 +1,20 @@
 import uuid from 'uuid'
 
 export default class Session {
+  static fromDb(dbEntry) {
+    const session = new Session()
+    session._id = dbEntry._id
+    session._users = dbEntry.users
+    session._isPlaying = dbEntry.status === 'playing'
+    session._playRequest = dbEntry.statusRequestBy || {
+      user: dbEntry.statusRequestBy,
+      timestamp: dbEntry.statusRequestAt,
+    }
+
+    return session
+  }
   constructor(initialUserId) {
+    if (!initialUserId) { return }
     this._users = [initialUserId]
     this._id = uuid()
     this._isPlaying = false

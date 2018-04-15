@@ -90,4 +90,20 @@ describe('Session class', () => {
       'statusRequestAt',
     )
   })
+
+  it('can be deserialized from database storage', () => {
+    const dbEntry = {
+      _id: 'sessionId',
+      users: ['user1', 'user2'],
+      status: 'playing',
+      statusRequestBy: 'user2',
+      statusRequestAt: 1234567,
+    }
+
+    const s = Session.fromDb(dbEntry)
+    expect(s.id()).to.equal('sessionId')
+    expect(s.users()).to.eql(['user1', 'user2'])
+    expect(s.isPlaying()).to.equal(true)
+    expect(s.hasToggleRequest()).to.equal(true)
+  })
 })
