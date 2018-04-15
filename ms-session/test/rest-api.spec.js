@@ -8,6 +8,7 @@ describe('session MS - REST API', () => {
     it('responds with OK', async () => {
       await request(service())
         .post('/new-session')
+        .send({ userId: 'userId' })
         .expect(OK)
     })
   })
